@@ -16,8 +16,12 @@ function AgregarAccion(props) {
     props.hanlderCerrarAgregarAccion();
   }
 
+  const handlerActualizarLanding = () => {
+    props.handlerTraerAcciones();
+  }
+
   const handlerAgregarAccion = () => {
-    
+
     const datos = {
       siglas_accion: nombreAccion,
       fecha_compra: fechaCompra,
@@ -25,23 +29,27 @@ function AgregarAccion(props) {
       cantidad_acciones: cantidadAccion,
       costo_total: precioCompraAccion * cantidadAccion
     }
-    
-    fetch('http://26.255.120.45:3000/api/v1/acciones' , {
+
+    fetch('http://26.240.184.51:3000/api/v1/acciones', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(datos),
     })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        console.log('Error al traer las acciones');
-      }
-    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Accion agregada');
+          hanlderCerrarAgregarAccion();
+          handlerActualizarLanding();
+          return response.json();
+        } else {
+          console.log('Error al traer las acciones');
+          console.log(response.json());
+        }
+      })
   }
-  
+
   return (
     <Card style={{ width: '18rem' }}>
       <Card.Body>
@@ -49,6 +57,7 @@ function AgregarAccion(props) {
           <Form.Control
             type="text"
             placeholder="Nombre de la acción"
+            value={nombreAccion}
             onChange={(e) => setNombreAccion(e.target.value)}
           />
         </Card.Title>
@@ -56,6 +65,7 @@ function AgregarAccion(props) {
           <Form.Control
             type="date"
             placeholder="Fecha de compra"
+            value={fechaCompra}
             onChange={(e) => setFechaCompra(e.target.value)}
           />
         </Card.Subtitle>
@@ -63,30 +73,38 @@ function AgregarAccion(props) {
       <ListGroup className="list-group-flush">
         <ListGroup.Item>
           <Form.Control
-            type="number"
+            type="text"
             placeholder="Precio de compra"
-            onChange={(e) => setPrecioCompraAccion(e.target.value)}
-          />  
+            value={precioCompraAccion}
+            onChange={(e) => {
+              const onlyNumbers = e.target.value.replace(/[^0-9.]/g, '');
+              setPrecioCompraAccion(onlyNumbers);
+            }}
+          />
         </ListGroup.Item>
         <ListGroup.Item>
           <Form.Control
-            type="number"
+            type="text"
             placeholder="Cantidad"
-            onChange={(e) => setCantidadAccion(e.target.value)}
-          />  
+            value={cantidadAccion}
+            onChange={(e) => {
+              const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+              setCantidadAccion(onlyNumbers);
+            }}
+          />
         </ListGroup.Item>
         <ListGroup.Item>
           <Form.Control
             type="number"
             placeholder="Precio"
-            inputMode="decimal"
+            inputMode="numeric"
             readOnly
             value={precioCompraAccion * cantidadAccion}
           />
         </ListGroup.Item>
       </ListGroup>
       <Card.Footer className="d-flex justify-content-center">
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" onClick={handlerAgregarAccion}>
           Agregar
         </Button>
         <Button variant="danger" className="ms-2" onClick={hanlderCerrarAgregarAccion}>Cancelar</Button>

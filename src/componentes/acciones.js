@@ -10,9 +10,9 @@ function Acciones(props) {
         <Card.Subtitle className="mb-2 text-muted">{props.fechaCompra}</Card.Subtitle>
       </Card.Body>
       <ListGroup className="list-group-flush">
-        <ListGroup.Item>Precio de compra: {props.precioCompraAccion}</ListGroup.Item>
-        <ListGroup.Item>Cantidad: {props.cantidadAccion}</ListGroup.Item>
-        <ListGroup.Item>Precio: {props.precioAccion}</ListGroup.Item>
+        <ListGroup.Item><strong>Precio de compra:</strong> {props.precioCompraAccion}</ListGroup.Item>
+        <ListGroup.Item><strong>Cantidad:</strong> {props.cantidadAccion}</ListGroup.Item>
+        <ListGroup.Item><strong>Precio Total:</strong> {props.precioAccion}</ListGroup.Item>
       </ListGroup>
     </Card>
   );

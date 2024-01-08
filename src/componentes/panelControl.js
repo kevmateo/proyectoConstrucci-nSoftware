@@ -1,9 +1,10 @@
-import React from "react"; 
+import React from "react";
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useState } from 'react';
+import { TfiViewListAlt, TfiViewGrid  } from "react-icons/tfi";
 
 function PanelControl(props) {
 
@@ -12,6 +13,10 @@ function PanelControl(props) {
   const handlerCapturarTexto = (e) => {
     setCapturarTexto(e.target.value);
     props.handlerBuscarAcciones(e);
+  }
+
+  const handlerCambiarVista = () => {
+    props.handlerCambiarVista();
   }
 
   return (
@@ -34,6 +39,22 @@ function PanelControl(props) {
               value={capturarTexto}
               onChange={handlerCapturarTexto}
             />
+            <button
+              type="button"
+              style={{
+                border: 'none',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                background: 'transparent',
+                fontSize: '20px', 
+                padding: '1px',
+                cursor: 'pointer',
+              }}
+              onClick={handlerCambiarVista}
+            >
+              {props.vistaTabla ?  <TfiViewListAlt /> : <TfiViewGrid />}
+            </button>
           </Form>
         </Navbar.Collapse>
       </Container>
