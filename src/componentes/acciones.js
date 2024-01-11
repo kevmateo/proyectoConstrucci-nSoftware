@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 function Acciones(props) {
+
+  const [accionSeleccionada, setAccionSeleccionada] = useState(false);
+
+  const hanlderAccionSeleccionada = () => {
+    if (props.modeEliminar) {
+      props.handlerSeleccionarAccion(props.id_accion);
+      setAccionSeleccionada(!accionSeleccionada);
+    }
+  }
+
+  useEffect(() => {
+    setAccionSeleccionada(false);
+  }, [props.modeEliminar]);
+
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card
+      data-bs-theme={props.darkMode ? 'dark' : 'light'}
+      style={{ width: '18rem', border: accionSeleccionada ? '2px solid green' : '', cursor: props.modeEliminar ? 'pointer' : '' }}
+      onClick={hanlderAccionSeleccionada}
+    >
       <Card.Body>
         <Card.Title>{props.nombreAccion}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{props.fechaCompra}</Card.Subtitle>

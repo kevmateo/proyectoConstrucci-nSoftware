@@ -1,0 +1,4 @@
+.icono-cambiar-vista:hover,
+.icono-dark-mode:hover {
+  transform: scale(1.2);
+} 

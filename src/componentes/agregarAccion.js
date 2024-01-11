@@ -51,7 +51,7 @@ function AgregarAccion(props) {
   }
 
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card data-bs-theme={props.darkMode ? 'dark' : 'light'} style={{ width: '18rem' }}>
       <Card.Body>
         <Card.Title>
           <Form.Control
