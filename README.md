@@ -65,6 +65,163 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
+---
+## Requerimientos Funcionales
+
+| Código | Requerimiento                                      |
+|--------|----------------------------------------------------|
+| RFP1   | La aplicación debe permitir al usuario registrar la compra de acciones |
+| RFP2   | La aplicación debe permitir al usuario observar una lista de las acciones compradas |
+| RFP3   | La aplicación debe permitir buscar con su nombre una acción registrada por el usuario |
+| RFP4   | La información que debe mostrarse de las acciones es: el nombre de la acción, fecha de compra, precio de compra por acción, cantidades de acciones y costo total de compra |
+| RFP5   | La información que ingresa el usuario al registrar una acción es el nombre de la acción, fecha de compra, precio de compra por acción y cantidades de acciones |
+| RFP6   | El costo total de compra cuando el usuario registra una compra de acción se calcula automáticamente |
+| RFP7   | La interfaz de usuario debe poderse cambiar a modo oscuro |
+| RFP8   | Las acciones registradas también se podrán eliminar del registro |
+
+## Configuración del Proyecto
+
+Para este proyecto se trabajará con la librería React de JavaScript creada por Facebook, react nos permite diseñar e implementar la interface de una aplicación web [1]. Se puede decir que es la V en el patrón MVC (Model, View, Controller) y C es nodesjs.
+
+Para la base de datos se utilizará MySql en un servidor remoto, en el que se conectará la aplicación para obtener e ingresar datos a través de una conexión con la utilización del software Radmin VPN.
+
+También se utilizará una arquitectura basada en componentes, ya que, se estará utilizando la librería de react de JavaScript la cual están basadas en componentes independientes, dinámicos y reutilizables.
+
+## Arquitectura del Software del Sistema
+
+![Arquitectura del software del sistema](link_a_la_imagen)
+
+## Diseño de Base de Datos
+
+![Modelo entidad relación de la base de datos del sistema](link_a_la_imagen)
+
+## Artefactos XP
+
+### Épica 1: Listado de Acciones
+
+#### Historia de Usuario 1: Visualización de la Lista de Acciones
+
+##### Criterios de Aceptación:
+- Al iniciar la aplicación, se muestra la lista de acciones con la información necesaria.
+
+#### Historia de Usuario 2: Información de Acciones
+
+##### Criterios de Aceptación:
+- Al mostrar el listado de acciones, se presenta el nombre, fecha de compra, precio de compra por acción, cantidades de acciones y costo total de compra.
+
+### Épica 2: Registro de Acciones
+
+#### Historia de Usuario 3: Registrar Acción
+
+##### Criterios de Aceptación:
+- Al dar clic en "Agregar Acción", se presenta un formulario para registrar la acción con la información necesaria.
+
+#### Historia de Usuario 4: Cálculo Automático del Costo Total de Compra
+
+##### Criterios de Aceptación:
+- Al llenar el formulario de registro de acción y dar clic en "Agregar", se muestra en la lista de acciones la información completa.
+
+### Épica 3: Búsqueda y Eliminación de Acciones
+
+#### Historia de Usuario 5: Búsqueda de Acciones por Nombre
+
+##### Criterios de Aceptación:
+- Al ingresar el nombre de una acción en el buscador, se muestra la acción con ese nombre si existe.
+
+#### Historia de Usuario 6: Eliminar Acciones
+
+##### Criterios de Aceptación:
+- Al seleccionar las acciones a eliminar y presionar el botón "Eliminar", estas ya no se mostrarán en el listado de acciones.
+
+## Eventos XP
+
+### Planificación del Reléase
+
+Objetivo del Reléase: Automatizar en un 75% la administración de las acciones compradas por el usuario.
+
+#### Selección de Historias de Usuario
+
+1. Registrar Acción
+2. Cálculo de Costo Total de Compra
+3. Eliminar Acción Registrada
+4. Listado de Acciones
+5. Información de Acciones
+6. Búsqueda de Acciones por Nombre
+7. Cambiar de Modo de Visualización a Dark.
+
+### Iteración 1
+
+#### Objetivo: Permitir al usuario registrar sus acciones compradas.
+
+##### Historia de Usuario 1: Registrar Acción
+
+###### Tareas:
+- Crear la base de datos. (Estimado: 1 hora)
+- Conectar la base de datos. (Estimado: 1 hora)
+- Poner un botón “Agregar Acción”. (Estimado: 0.5 hora)
+- Crear el formulario de registro. (Estimado: 2 horas)
+- Crear la sentencia en la base de datos. (Estimado: 0.5 hora)
+- Vincular el formulario con la base de datos. (Estimado: 1 hora)
+
+##### Historia de Usuario 2: Cálculo de Costo Total de Compra
+
+###### Tareas:
+- Calcular el costo total de la compra. (Estimado: 1 hora)
+- Ingresar la acción a la base de datos. (Estimado: 2 horas)
+
+##### Historia de Usuario 3: Eliminar Acción Registrada
+
+###### Tareas:
+- Eliminar de la base de datos el registro de la acción. (Estimado: 2 horas)
+- Mostrar la nueva lista de acciones registradas. (Estimado: 1 hora)
+
+**Resumen de Iteración:**
+- Estimación Total: 12 horas
+- Tiempo Real: 40 horas
+- Velocidad Total: 0.3
+
+### Iteración 2
+
+#### Objetivo: Permitir al usuario observar las acciones registradas.
+
+##### Historia de Usuario 4: Listado de Acciones
+
+###### Tareas:
+- Crear una página para mostrar la lista de acciones. (Estimado: 2 horas)
+- Actualizar la página al ingresar una nueva acción. (Estimado: 1 hora)
+
+##### Historia de Usuario 5: Información de Acciones
+
+###### Tareas:
+- Codificar la página de lista de acciones. (Estimado: 2 horas)
+
+##### Historia de Usuario 6: Búsqueda de Acciones por Nombre
+
+###### Tareas:
+- Agregar a la página un NavBar y un espacio de texto para buscar una acción. (Estimado: 2 horas)
+- Agregar un botón en el NavBar para presentar el listado de las acciones en diferentes modos. (Estimado: 2 horas)
+
+**Resumen de Iteración:**
+- Estimación Total: 9 horas
+- Tiempo Real: 40 horas
+- Velocidad Total: 0.225
+
+### Iteración 3
+
+#### Objetivo: Permitir al usuario el modo de visualización de la app en claro o a dark.
+
+##### Historia de Usuario 7: Cambiar de Modo de Visualización a Dark.
+
+###### Tareas:
+- Agregar el botón para cambiar de modo claro a oscuro. (Estimado: 1 hora)
+- Cambiar el color del contenido de la app. (Estimado: 2 horas)
+
+**Resumen de Iteración:**
+- Estimación Total: 3 horas
+- Tiempo Real: 40 horas
+- Velocidad Total: 0.075
+
+
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
