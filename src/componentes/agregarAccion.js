@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/esm/Button";
+import Swal from 'sweetalert2'
 
 function AgregarAccion(props) {
 
@@ -21,6 +22,24 @@ function AgregarAccion(props) {
   }
 
   const handlerAgregarAccion = () => {
+
+    if (nombreAccion === '' || fechaCompra === '' || precioCompraAccion === '' || cantidadAccion === '') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: 'error',
+        title: 'Por favor, complete todos los campos'
+      });
+    } 
 
     const datos = {
       siglas_accion: nombreAccion,
