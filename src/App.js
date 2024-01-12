@@ -5,8 +5,9 @@ import Acciones2 from './componentes/accionesVista2';
 import PanelControl from './componentes/panelControl';
 import Button from 'react-bootstrap/esm/Button';
 import AgregarAccion from './componentes/agregarAccion';
+import Swal from 'sweetalert2'
 
-function App() {
+function App(props) {
 
   const [acciones, setAcciones] = useState([]);
   const [accionesAuxiliares, setAccionesAuxiliares] = useState([]);
@@ -48,29 +49,50 @@ function App() {
   }, []);
 
   const handlerEliminarAcciones = () => {
-    const datos = {
-      ids: accionesSeleccionadas || filaSeleccionada
-    }
-
-    fetch(`http://26.240.184.51:3000/api/v1/acciones`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(datos),
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log('Accion eliminada');
-          handlerTraerAcciones();
-          setAccionesSeleccionadas([]);
-          setModeEliminar(false);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let datos;
+        if (accionesSeleccionadas.length > 0) {
+          datos = {
+            ids: accionesSeleccionadas
+          };
         } else {
-          console.log('Error al eliminar la accion');
-          console.log(datos);
+          datos = {
+            ids: filaSeleccionada
+          };
         }
-      })
-  }
+  
+        fetch(`http://26.240.184.51:3000/api/v1/acciones`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(datos),
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log('Accion eliminada');
+              handlerTraerAcciones();
+              setAccionesSeleccionadas([]);
+              setFilaSeleccionada([]);
+              setModeEliminar(false);
+            } else {
+              console.log('Error al eliminar la accion');
+              console.log(datos);
+            }
+          });
+      }
+    });
+  };
 
   const handlerBuscarAcciones = (e) => {
     const texto = e.target.value;
@@ -120,13 +142,20 @@ function App() {
 
   const handlerFilaSeleccionada = (id_accion) => {
     if (modeEliminar) {
-      const nuevasFilasSeleccionadas = filaSeleccionada.includes(id_accion)
-        ? filaSeleccionada.filter((fila) => fila !== id_accion)
-        : [...filaSeleccionada, id_accion];
-      setFilaSeleccionada(nuevasFilasSeleccionadas);
-      setAccionesSeleccionadas(nuevasFilasSeleccionadas);
+      setFilaSeleccionada(prevFilasSeleccionadas => {
+        let nuevasFilasSeleccionadas;
+
+        if (typeof id_accion === 'number') {
+          nuevasFilasSeleccionadas = prevFilasSeleccionadas.includes(id_accion)
+            ? prevFilasSeleccionadas.filter((fila) => fila !== id_accion)
+            : [...prevFilasSeleccionadas, id_accion];
+        } else {
+          nuevasFilasSeleccionadas = id_accion;
+        }
+        return nuevasFilasSeleccionadas;
+      });
     }
-  }
+  };
 
   return (
     <>

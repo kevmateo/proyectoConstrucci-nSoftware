@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 
-function AccionesVista2(props, modeEliminar) {
-  
+function AccionesVista2({ darkMode, acciones, handlerFilaSeleccionada, modeEliminar }) {
+
   const [filasSeleccionadas, setFilasSeleccionadas] = useState([]);
 
-  const handlerFilaSeleccionada = (id_accion) => {
+  const handlerFilaSeleccionadaV2 = (id_accion) => {
     if (modeEliminar) {
-      const nuevasFilasSeleccionadas = filasSeleccionadas.includes(id_accion)
-        ? filasSeleccionadas.filter((fila) => fila !== id_accion)
-        : [...filasSeleccionadas, id_accion];
-      setFilasSeleccionadas(nuevasFilasSeleccionadas);
-      props.handlerFilaSeleccionada(nuevasFilasSeleccionadas);
+      setFilasSeleccionadas(prevFilasSeleccionadas => {
+        const nuevasFilasSeleccionadas = prevFilasSeleccionadas.includes(id_accion)
+          ? prevFilasSeleccionadas.filter((fila) => fila !== id_accion)
+          : [...prevFilasSeleccionadas, id_accion];
+        handlerFilaSeleccionada(nuevasFilasSeleccionadas);
+        return nuevasFilasSeleccionadas;
+      });
     }
-  }
+  };
 
   useEffect(() => {
     setFilasSeleccionadas([]);
-    props.handlerFilaSeleccionada([]);
+    handlerFilaSeleccionada([]);
   }, [modeEliminar]);
 
   return (
-    <Table data-bs-theme={props.darkMode ? 'dark' : 'light'} striped bordered hover>
+    <Table data-bs-theme={darkMode ? 'dark' : 'light'} striped bordered hover>
       <thead>
         <tr>
           <th>Nombre</th>
@@ -32,14 +34,14 @@ function AccionesVista2(props, modeEliminar) {
         </tr>
       </thead>
       <tbody>
-        {props.acciones.map((accion, index) => (
+        {acciones.map((accion, index) => (
           <tr
             key={index}
             id_accion={accion.id_accion}
-            onClick={() => handlerFilaSeleccionada(accion.id_accion)}
+            onClick={() => handlerFilaSeleccionadaV2(accion.id_accion)}
             style={{
-              border: filasSeleccionadas.includes(accion.id_accion) ? '2px solid green' : '',
-              cursor: props.modeEliminar ? 'pointer' : ''
+              border: filasSeleccionadas.includes(accion.id_accion) ? '2px solid #BB2D3B' : '',
+              cursor: modeEliminar ? 'pointer' : ''
             }}
           >
             <td>{accion.siglas_accion}</td>

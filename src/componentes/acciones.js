@@ -20,7 +20,7 @@ function Acciones(props) {
   return (
     <Card
       data-bs-theme={props.darkMode ? 'dark' : 'light'}
-      style={{ width: '18rem', border: accionSeleccionada ? '2px solid green' : '', cursor: props.modeEliminar ? 'pointer' : '' }}
+      style={{ width: '18rem', border: accionSeleccionada ? '2px solid #BB2D3B' : '', cursor: props.modeEliminar ? 'pointer' : '' }}
       onClick={hanlderAccionSeleccionada}
     >
       <Card.Body>
