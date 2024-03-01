@@ -31,6 +31,8 @@ function Acciones(props) {
         <ListGroup.Item><strong>Precio de compra:</strong> {props.precioCompraAccion}</ListGroup.Item>
         <ListGroup.Item><strong>Cantidad:</strong> {props.cantidadAccion}</ListGroup.Item>
         <ListGroup.Item><strong>Precio Total:</strong> {props.precioAccion}</ListGroup.Item>
+        <ListGroup.Item><strong>Cambio:</strong> {props.cambio}</ListGroup.Item>
+        <ListGroup.Item><strong>Ganancia y Perdida:</strong> {props.ganancia_perdidas}</ListGroup.Item>
       </ListGroup>
     </Card>
   );

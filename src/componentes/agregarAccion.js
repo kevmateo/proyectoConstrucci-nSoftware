@@ -13,14 +13,6 @@ function AgregarAccion(props) {
   const [precioCompraAccion, setPrecioCompraAccion] = useState('');
   const [cantidadAccion, setCantidadAccion] = useState('');
 
-  const hanlderCerrarAgregarAccion = () => {
-    props.hanlderCerrarAgregarAccion();
-  }
-
-  const handlerActualizarLanding = () => {
-    props.handlerTraerAcciones();
-  }
-
   const handlerAgregarAccion = () => {
 
     if (nombreAccion === '' || fechaCompra === '' || precioCompraAccion === '' || cantidadAccion === '') {
@@ -59,14 +51,15 @@ function AgregarAccion(props) {
       .then((response) => {
         if (response.ok) {
           console.log('Accion agregada');
-          hanlderCerrarAgregarAccion();
-          handlerActualizarLanding();
+          props.hanlderCerrarAgregarAccion();
+          props.handlerTraerAcciones();
           return response.json();
         } else {
           console.log('Error al traer las acciones');
           console.log(response.json());
         }
       })
+
   }
 
   return (
@@ -126,7 +119,7 @@ function AgregarAccion(props) {
         <Button variant="primary" type="submit" onClick={handlerAgregarAccion}>
           Agregar
         </Button>
-        <Button variant="danger" className="ms-2" onClick={hanlderCerrarAgregarAccion}>Cancelar</Button>
+        <Button variant="danger" className="ms-2" onClick={props.hanlderCerrarAgregarAccion}>Cancelar</Button>
       </Card.Footer>
     </Card>
   );

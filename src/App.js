@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import Acciones from './componentes/acciones';
 import Acciones2 from './componentes/accionesVista2';
@@ -6,6 +6,8 @@ import PanelControl from './componentes/panelControl';
 import Button from 'react-bootstrap/esm/Button';
 import AgregarAccion from './componentes/agregarAccion';
 import Swal from 'sweetalert2'
+
+const socket = new WebSocket('ws://26.240.184.51:8081/');
 
 function App(props) {
 
@@ -37,7 +39,7 @@ function App(props) {
         data.sort((a, b) => b.id_accion - a.id_accion);
         setAcciones(data);
         setAccionesAuxiliares(data);
-        console.log(data);
+
       })
       .catch((error) => {
         console.log(error);
@@ -70,7 +72,7 @@ function App(props) {
             ids: filaSeleccionada
           };
         }
-  
+
         fetch(`http://26.240.184.51:3000/api/v1/acciones`, {
           method: 'DELETE',
           headers: {
@@ -109,6 +111,7 @@ function App(props) {
 
   const hanlderCerrarAgregarAccion = () => {
     setMostrarAgregarAccion(false);
+    //sendMessage(JSON.stringify({ type: 'agregar_accion' }));
   }
 
   const handlerCambiarVista = () => {
@@ -157,6 +160,28 @@ function App(props) {
     }
   };
 
+  const hanlderEventoWebSocket = () => {
+    socket.addEventListener('message', function (event) {
+      const messageData = JSON.parse(event.data);
+      setAcciones(acciones => acciones.map(accion => {
+        if (accion.id_accion === messageData.id_accion) {
+          return {
+            ...accion,
+            cambio: messageData.cambio,
+            ganancia_perdida: messageData.ganancia_perdida
+          };
+        }
+        
+        return accion;
+      }));
+    });
+  }
+
+  useEffect(() => {
+    hanlderEventoWebSocket();
+  }, []);
+
+
   return (
     <>
       <header>
@@ -204,6 +229,8 @@ function App(props) {
               precioCompraAccion={accion.precio_compra}
               cantidadAccion={accion.cantidad_acciones}
               precioAccion={accion.costo_total}
+              cambio={accion.cambio}
+              ganancia_perdidas={accion.ganancia_perdida}
               darkMode={darkMode}
               handlerModoEliminar={handlerModoEliminar}
               modeEliminar={modeEliminar}

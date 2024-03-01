@@ -31,6 +31,8 @@ function AccionesVista2({ darkMode, acciones, handlerFilaSeleccionada, modeElimi
           <th>Precio de Compra</th>
           <th>Cantidad</th>
           <th>Precio Total</th>
+          <th>Cambio</th>
+          <th>Ganancia y Perdida</th>
         </tr>
       </thead>
       <tbody>
@@ -49,6 +51,8 @@ function AccionesVista2({ darkMode, acciones, handlerFilaSeleccionada, modeElimi
             <td>{accion.precio_compra}</td>
             <td>{accion.cantidad_acciones}</td>
             <td>{accion.costo_total}</td>
+            <td>{accion.cambio}</td>
+            <td>{accion.ganancia_perdida}</td>
           </tr>
         ))}
       </tbody>
