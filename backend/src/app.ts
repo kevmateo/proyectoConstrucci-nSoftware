@@ -3,6 +3,7 @@ import accionesRoute from './routes/acciones.route';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
+
 const app = express();
 
 app.get('/', (_, res) => {
@@ -12,5 +13,7 @@ app.get('/', (_, res) => {
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/api/v1/', accionesRoute);
+
+
 
 export default app;

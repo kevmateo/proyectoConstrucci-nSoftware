@@ -4,7 +4,7 @@ POST http://127.0.0.1:3000/api/v1/acciones HTTP/1.1
 Content-Type: application/json
 
 {
-    "siglas_accion": "AMZN",
+    "siglas_accion": "EUR/USD",
     "fecha_compra": "2020-01-01",
     "precio_compra": 1000,
     "cantidad_acciones":  10,
@@ -15,7 +15,7 @@ POST http://127.0.0.1:3000/api/v1/acciones HTTP/1.1
 Content-Type: application/json
 
 {
-    "siglas_accion": "AAPL",
+    "siglas_accion": "BTC/USD",
     "fecha_compra": "2023-02-15",
     "precio_compra": 250,
     "cantidad_acciones":  5,
@@ -42,4 +42,12 @@ Content-Type: application/json
     "precio_compra": 700,
     "cantidad_acciones":  2,
     "costo_total": 1400
+}
+
+###
+DELETE http://127.0.0.1:3000/api/v1/acciones HTTP/1.1
+Content-Type: application/json
+
+{
+    "ids":[9]
 }

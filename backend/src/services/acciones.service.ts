@@ -1,5 +1,6 @@
 import acciones from "../db/models/acciones.model";
 import { AccionesCreationAttributesI, AccionesAtributesI } from "../../type";
+import { socket, unsubscribe, subscribe } from '../api/api.acciones';
 
 class Acciones {
     async getAcciones(): Promise<AccionesAtributesI[]> {
@@ -20,25 +21,45 @@ class Acciones {
         }
     }
 
-    async createAccion(accion: AccionesCreationAttributesI) {
+    async createAccion(accion: AccionesCreationAttributesI): Promise<AccionesAtributesI> {
         try {
-            return await acciones.create(accion as any);
+
+            const costoTotal = accion.precio_compra * accion.cantidad_acciones;
+            const nuevaAccion = {
+                ...accion,
+                costo_total: costoTotal,
+
+            };
+            subscribe(nuevaAccion.siglas_accion);
+
+            return await acciones.create(nuevaAccion) as any as AccionesAtributesI;
+
         } catch (error) {
             throw error;
         }
     }
 
-    async updateAccion(id: number, aerolinea: AccionesCreationAttributesI): Promise<AccionesAtributesI | null> {
+    async updateAccion(id: number, accion: AccionesCreationAttributesI): Promise<AccionesAtributesI | null> {
         try {
             const accionToUpdate = await acciones.findByPk(id);
+
             if (accionToUpdate) {
-                await acciones.update(aerolinea, {
+
+                const costoTotal = accion.precio_compra * accion.cantidad_acciones;
+
+                const nuevaAccion = {
+                    ...accion,
+                    costo_total: costoTotal,
+                };
+
+                await acciones.update(nuevaAccion, {
                     where: {
                         id_accion: id
                     }
                 });
-                const updatedAerolinea = await acciones.findByPk(id);
-                return updatedAerolinea ? updatedAerolinea.toJSON() as AccionesAtributesI : null;
+
+                const updatedAccion = await acciones.findByPk(id);
+                return updatedAccion ? updatedAccion.toJSON() as AccionesAtributesI : null;
             }
             return null;
         } catch (error) {
@@ -48,16 +69,17 @@ class Acciones {
 
     async deleteAccion(id: number): Promise<AccionesAtributesI | null> {
         try {
-            const accionesToDelete = await acciones.findByPk(id);
+            const accionesToDelete = await acciones.findByPk(id) as any as AccionesAtributesI;
 
             if (accionesToDelete) {
+                //unsubscribe(accionesToDelete.siglas_accion);
                 await acciones.destroy({
                     where: {
                         id_accion: id
                     }
                 });
 
-                return accionesToDelete.toJSON() as AccionesAtributesI;
+                return accionesToDelete;
             } else {
                 return null;
             }
@@ -68,6 +90,15 @@ class Acciones {
 
     async deleteAcciones(ids: number[]): Promise<number> {
         try {
+            const accionesToDelete: AccionesAtributesI[] = (await acciones.findAll({
+                where: {
+                    id_accion: ids
+                }
+            })).map((accion) => accion.toJSON()) as AccionesAtributesI[];
+
+            const siglasAcciones = accionesToDelete.map((accion) => accion.siglas_accion);
+           // siglasAcciones.forEach((siglas) => unsubscribe(siglas));
+
             const deletedAcciones = await acciones.destroy({
                 where: {
                     id_accion: ids
@@ -81,4 +112,4 @@ class Acciones {
     }
 }
 
-export default Acciones;
+export default new Acciones();

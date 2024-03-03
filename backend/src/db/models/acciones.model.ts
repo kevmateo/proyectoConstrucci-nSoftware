@@ -30,7 +30,14 @@ const Acciones = sequelize.define<Model<AccionesAtributesI, AccionesCreationAttr
         type: DataTypes.FLOAT,
         allowNull: false,
     },
-
+    cambio: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+    },
+    ganancia_perdida: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+    }
 }, {
     timestamps: false,
 });

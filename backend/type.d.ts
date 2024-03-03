@@ -5,18 +5,10 @@ export interface AccionesAtributesI {
     precio_compra: number;
     cantidad_acciones: number;
     costo_total: number;
+    cambio?: number;
+    ganancia_perdida?: number;
 }
 
-export interface AccionesCreationAttributesI {
-    siglas_accion: string;
-    fecha_compra: Date;
-    precio_compra: number;
-    cantidad_acciones: number;
-    costo_total: number;
-}
+type AccionesCreationAttributesI = Omit<AccionesAtributesI, 'id_accion' | 'cambio' | 'ganancia_perdida' | 'costo_total'>;
 
-// definir un tipo
-export type a = {
-    siglas_accion: "AMZN"|| "AAPL" || "GOOGL" || "FB" || "MSFT" || "TSLA";
-}
 
